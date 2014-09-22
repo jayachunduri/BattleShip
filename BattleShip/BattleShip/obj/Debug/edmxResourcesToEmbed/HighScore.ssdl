@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="JayaModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="JayaModelStoreContainer">
+    <EntitySet Name="HighScores" EntityType="JayaModel.Store.HighScores" store:Type="Tables" Schema="dbo" />
+  </EntityContainer>
+  <EntityType Name="HighScores">
+    <Key>
+      <PropertyRef Name="HighScoreID" />
+    </Key>
+    <Property Name="HighScoreID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nchar" MaxLength="50" />
+    <Property Name="Score" Type="int" />
+    <Property Name="DateCreated" Type="datetime" />
+    <Property Name="Game" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+</Schema>
