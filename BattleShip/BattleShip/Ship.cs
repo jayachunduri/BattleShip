@@ -20,6 +20,7 @@ namespace BattleShip
         //properties
         public ShipType type { get; set; }
         public List<Point> occupiedPoint { get; set; }
+
         public int length  { get; set; }
         public bool IsDistroyed {
             get

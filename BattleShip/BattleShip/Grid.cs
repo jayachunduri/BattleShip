@@ -15,6 +15,7 @@ namespace BattleShip
     class Grid
     {
         //properties
+        public string name;
         public static Point[,] Ocean { get; set; }
         public static List<Ship> ListOfShips { get; set; }
         public static bool AllShipsDestroyed {
@@ -31,7 +32,7 @@ namespace BattleShip
             //initialize ocean
             Ocean = new Point[10, 10];
             ListOfShips = new List<Ship>();
-            Score = 0;
+            Score = 100;
 
             //loop to initialize all points
             for (int x = 0; x < 10; x++) //x coordinate
@@ -42,6 +43,37 @@ namespace BattleShip
                 }
             }
 
+        }
+
+        //Gree the user
+        public void Greet()
+        {
+            Console.Write("Enter Your Name: ");
+            name = Console.ReadLine();
+            Console.Clear();
+
+            Console.WriteLine("\nWelcome to Battle Ship, " +name);
+            Console.WriteLine("\ntype \"HELP\" for the introduction \n or Press enter to skip the introduction:");
+            string temp = Console.ReadLine();
+
+            if (temp == "")
+                return;
+            else if (temp.ToLower() == "help")
+            {
+                Console.WriteLine(@"
+THE STORY: The enemies placed their ships in ocean.
+We don't know where they are,
+but we do know they placed 5 ships.
+We need to destroy their ships. 
+
+You have to choose x and y coordinates to hit.
+It will display red mark, when it hits a ship.
+It will display green mark, when it misses.
+
+All the best!
+
+    ");
+            }
         }
 
         //method to place ships
@@ -87,6 +119,14 @@ namespace BattleShip
         //method to display grid to user
         public static void DisplayOcean() 
         {
+            //Console.WriteLine("***  ****");
+            //Console.WriteLine("*  * *  *");
+            //Console.WriteLine("*  * *  *");
+            //Console.WriteLine("**** ****");
+            //Console.WriteLine("*  * *  *");
+            //Console.WriteLine("*  * *  *");
+            //Console.WriteLine("**** *  *");
+            Console.Clear();
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("    0  1  2  3  4  5  6  7  8  9  X");
             Console.WriteLine("===================================");
@@ -177,18 +217,21 @@ namespace BattleShip
                 }
 
                 //now that we have good values in x and y, calling target function
+                Score--;
                 Target(x, y);
                 CombatRound++;
+               
             }
             DisplayOcean();
             Console.WriteLine("Congratulations you WON!");
             Console.WriteLine("It took " + CombatRound + " rounds to finish the game");
-            Console.WriteLine("Press Enter to see 10 high scores");
-            Console.ReadKey();
+            Console.WriteLine("\n Your Score: " + Score);
+            //Console.WriteLine("Press Enter to see 10 high scores");
+            //Console.ReadKey();
 
             //Add high score to data base
-            AddHighScoreToDB();
-            DisplayHighScore();
+            //AddHighScoreToDB();
+            //DisplayHighScore();
         }
 
         //function returns TRUE if there is a ship in that part of ocean or reached end of ocean
@@ -220,51 +263,53 @@ namespace BattleShip
         }
 
         //function to add high score to the data base
-        public static void AddHighScoreToDB()
-        {
-            //create a connection to the data base
-            JayaEntities db = new JayaEntities();
+        //commented to place in portfolio
+        //public static void AddHighScoreToDB()
+        //{
+        //    //create a connection to the data base
+        //    JayaEntities db = new JayaEntities();
 
-            //create an instance of class High Score(from data base table)
-            HighScore currentScore = new HighScore();
+        //    //create an instance of class High Score(from data base table)
+        //    HighScore currentScore = new HighScore();
 
-            //added all information to current score object
-            currentScore.DateCreated = DateTime.Now;
-            currentScore.Game = "Battle Ship";
-            currentScore.Score = Score;
-            Console.Clear();
-            Console.WriteLine("\n\nEnter your name");
-            currentScore.Name = Console.ReadLine();
+        //    //added all information to current score object
+        //    currentScore.DateCreated = DateTime.Now;
+        //    currentScore.Game = "Battle Ship";
+        //    currentScore.Score = Score;
+        //    Console.Clear();
+        //    Console.WriteLine("\n\nEnter your name");
+        //    currentScore.Name = Console.ReadLine();
 
-            //add it to the data base
-            db.HighScores.Add(currentScore);
+        //    //add it to the data base
+        //    db.HighScores.Add(currentScore);
 
-            //commit the changes to the data base
-            db.SaveChanges();
-        }
+        //    //commit the changes to the data base
+        //    db.SaveChanges();
+        //}
 
         //function to get high score from the data base table HighScores and display to the user
-        public static void DisplayHighScore()
-        {
-            //clear the console before displaying the high score
-            Console.Clear();
-            Console.WriteLine("Your score is: " + Score);
-            Console.WriteLine("Battle Ship High Scores");
-            Console.WriteLine("**********************");
+        //Commented it to place in portfolio
+        //public static void DisplayHighScore()
+        //{
+        //    //clear the console before displaying the high score
+        //    Console.Clear();
+        //    Console.WriteLine("Your score is: " + Score);
+        //    Console.WriteLine("Battle Ship High Scores");
+        //    Console.WriteLine("**********************");
 
-            //create a connection to the data base
-            JayaEntities db = new JayaEntities();
+        //    //create a connection to the data base
+        //    JayaEntities db = new JayaEntities();
 
-            //get the top high scores from data base table using db object
-            //List<HighScore> highScoreList = db.HighScores.Where(x => x.Name == "Battle Ship").OrderByDescending(x => x.Score).Take(10).ToList();
+        //    //get the top high scores from data base table using db object
+        //    //List<HighScore> highScoreList = db.HighScores.Where(x => x.Name == "Battle Ship").OrderByDescending(x => x.Score).Take(10).ToList();
 
-            //Display that list to the user
-            foreach (var item in db.HighScores.Where(x => x.Game == "Battle Ship").OrderByDescending(x => x.Score).Take(10))
-            {
-                //Console.WriteLine("{0}, {1} - {2}", highScoreList.IndexOf(highScore) + 1, highScore.Name, highScore.Score);
-                Console.WriteLine(item.Name + " " + item.Score);
-            }
-        }
+        //    //Display that list to the user
+        //    foreach (var item in db.HighScores.Where(x => x.Game == "Battle Ship").OrderByDescending(x => x.Score).Take(10))
+        //    {
+        //        //Console.WriteLine("{0}, {1} - {2}", highScoreList.IndexOf(highScore) + 1, highScore.Name, highScore.Score);
+        //        Console.WriteLine(item.Name + " " + item.Score);
+        //    }
+        //}
 
         }
 

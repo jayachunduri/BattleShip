@@ -13,6 +13,9 @@ namespace BattleShip
             Grid grid = new Grid();
             //int userChoice = 0;
 
+            //Greet the user
+            grid.Greet();
+
             //build 5 ships
             Ship ship1 = new Ship(ShipType.Submarine);
             Ship ship2 = new Ship(ShipType.Minesweeper);
